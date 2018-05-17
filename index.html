@@ -1,0 +1,113 @@
+<html>
+
+    <head>
+        
+        <title>Web Code Editor</title>
+ 
+        <script type="text/javascript" src="jquery.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="style.css">
+        
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Source+Code+Pro" rel="stylesheet">
+        
+    </head>
+
+    
+
+    
+    <body>
+        
+        <div id="header">
+        
+            <div id="name">
+            
+                EldonJiang
+                
+            </div>
+            
+            <div id="buttons">
+                
+                <div class="button active" id="html">HTML</div>
+                
+                <div class="button" id="css">CSS</div>
+                
+                <div class="button" id="javascript">JavaScript</div>
+
+            </div>
+        
+        </div>
+        
+        <div id="bodyMain">
+            
+            <textarea id="htmlPanel" class="panel"><p id="me">HTML!</p></textarea>
+            
+            <textarea id="cssPanel" class="panel hidden">p { color: grey; }</textarea>
+            
+            <textarea id="javascriptPanel" class="panel hidden">document.getElementById("me").innerHTML = "Hello Eldon!";</textarea>
+        
+            <iframe id="outputPanel" class="panel"></iframe>
+        </div>
+        
+        
+        
+        
+        
+        
+        <script>
+            
+            function updateOutput() {
+                
+                $("iframe").contents().find("html").html("<html><head><style type='text/css'>" + $("#cssPanel").val() + "</style></head><body><h4>The preview of your code: </h4><hr>" + $("#htmlPanel").val() + "</body></html>");
+                
+            document.getElementById("outputPanel").contentWindow.eval($("#javascriptPanel").val());
+                
+                
+                
+            }
+            
+            $(".button").hover(function() {
+                
+                $(this).addClass("highlightButton");
+                
+            }, function() {
+                
+                $(this).removeClass("highlightButton");
+                
+            });
+            
+            $(".button").click(function() {
+                
+                $(this).toggleClass("active");
+                
+                $(this).removeClass("highlightButton");
+                
+                var panelId = $(this).attr("id") + "Panel";
+                
+                $("#" + panelId).toggleClass("hidden");
+                
+                var numberOfActivePanels = 4 - $('.hidden').length;
+                
+                $(".panel").width(($(window).width() / numberOfActivePanels) - 10);
+                
+            })
+            
+            $(".panel").height($(window).height() - $("#header").height() - 15);
+            
+            $(".panel").width(($(window).width() / 2) - 10);
+            
+            updateOutput();
+            
+            $("textarea").on('change keyup paste', function() {
+    
+                updateOutput();
+                
+                
+            });
+            
+        
+        
+        </script>
+        
+    </body>
+
+</html>
